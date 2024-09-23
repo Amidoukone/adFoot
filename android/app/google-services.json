@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "909944075766",
+    "project_id": "ad-foot",
+    "storage_bucket": "ad-foot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909944075766:android:b569d608b49a9ee35e03d7",
+        "android_client_info": {
+          "package_name": "com.example.ad_foot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLLwTp3slt8uhTUhRkQWkhG_HENXsdiD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
