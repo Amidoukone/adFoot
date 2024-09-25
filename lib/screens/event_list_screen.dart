@@ -7,13 +7,15 @@ import 'package:ad_foot/models/event.dart';
 class EventListScreen extends StatelessWidget {
   final EventController eventController = Get.put(EventController());
 
+  EventListScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Événements')),
+      appBar: AppBar(title: const Text('Événements')),
       body: Obx(() {
         if (eventController.events.isEmpty) {
-          return Center(child: Text('Aucun événement disponible pour l\'instant.'));
+          return const Center(child: Text('Aucun événement disponible pour l\'instant.'));
         } else {
           return ListView.builder(
             itemCount: eventController.events.length,

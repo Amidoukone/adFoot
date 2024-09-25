@@ -1,15 +1,19 @@
+import 'package:ad_foot/controller/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import '../models/offre.dart';
-import '../models/user.dart';
-import '../controller/auth_controller.dart';
+import 'package:ad_foot/controller/notification_controller.dart'; // Importer NotificationController
+import 'package:ad_foot/models/notification.dart';
+import 'package:ad_foot/models/offre.dart';
+import 'package:ad_foot/models/user.dart'; // Importer NotificationModel
 
 class OffreController extends GetxController {
   static OffreController instance = Get.find();
-  
-  RxList<Offre> offres = <Offre>[].obs; // Liste des offres récupérées
 
-  // Méthode pour récupérer toutes les offres
+  RxList<Offre> offres = <Offre>[].obs; 
+
+  // Controller des notifications
+  final NotificationController notificationController = Get.put(NotificationController());
+
   Future<void> getAllOffres() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('offres').get();
     offres.value = snapshot.docs
@@ -17,10 +21,9 @@ class OffreController extends GetxController {
         .toList();
   }
 
-  // Méthode pour publier une nouvelle offre
   Future<void> publierOffre(String titre, String description, DateTime dateDebut, DateTime dateFin) async {
     String id = FirebaseFirestore.instance.collection('offres').doc().id;
-    AppUser recruteur = AuthController.instance.user as AppUser; // Utilisateur connecté (recruteur)
+    AppUser recruteur = AuthController.instance.user as AppUser;
 
     Offre newOffre = Offre(
       id: id,
@@ -38,16 +41,32 @@ class OffreController extends GetxController {
         .doc(id)
         .set(newOffre.toMap());
 
-    // Envoyer des notifications aux joueurs
-    // Ici, vous pouvez déclencher Firebase Cloud Messaging pour alerter les joueurs
+    // Envoi d'une notification à tous les joueurs (ou utilisateurs ciblés)
+    List<AppUser> joueurs = await getJoueursCibles(); // Obtenir une liste des joueurs à notifier
+    for (var joueur in joueurs) {
+      NotificationModel notification = NotificationModel(
+        id: FirebaseFirestore.instance.collection('notifications').doc().id,
+        destinataire: joueur,
+        message: 'Nouvelle offre disponible : $titre',
+        type: 'offre',
+        dateCreation: DateTime.now(),
+      );
+      await notificationController.sendNotification(notification);
+    }
 
     Get.snackbar('Succès', 'Offre publiée avec succès');
-    getAllOffres(); // Mettre à jour la liste des offres
+    getAllOffres();
   }
 
-  // Méthode pour postuler à une offre
+  // Cette méthode pourrait récupérer tous les joueurs à notifier
+  Future<List<AppUser>> getJoueursCibles() async {
+    // Logique pour obtenir la liste des joueurs (par exemple, tous les joueurs enregistrés)
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users').where('role', isEqualTo: 'joueur').get();
+    return snapshot.docs.map((doc) => AppUser.fromMap(doc.data() as Map<String, dynamic>)).toList();
+  }
+
   Future<void> postulerOffre(Offre offre) async {
-    AppUser joueur = AuthController.instance.user as AppUser; // Joueur connecté
+    AppUser joueur = AuthController.instance.user as AppUser;
 
     if (!offre.candidats.contains(joueur)) {
       offre.candidats.add(joueur);
@@ -63,7 +82,6 @@ class OffreController extends GetxController {
     }
   }
 
-  // Méthode pour fermer une offre
   Future<void> fermerOffre(Offre offre) async {
     offre.statut = 'fermée';
     await FirebaseFirestore.instance

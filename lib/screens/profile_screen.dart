@@ -6,7 +6,7 @@ import '../models/user.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String uid;
-  ProfileScreen({required this.uid});
+  ProfileScreen({super.key, required this.uid});
 
   final ProfileController _profileController = Get.put(ProfileController());
 
@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
 
     return GetBuilder<ProfileController>(builder: (controller) {
       if (controller.user == null) {
-        return Scaffold(
+        return const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         );
       }
@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(user.name),
           centerTitle: true,
-          actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
+          actions: [IconButton(icon: const Icon(Icons.more_vert), onPressed: () {})],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -42,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
                 const Gap(10),
                 Text(
                   user.name,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const Gap(10),
 
@@ -69,11 +69,11 @@ class ProfileScreen extends StatelessWidget {
                 const Gap(20),
                 // Liste des vidéos si l'utilisateur en a
                 if (user.videos != null && user.videos!.isNotEmpty) ...[
-                  Text('Vidéos publiées'),
+                  const Text('Vidéos publiées'),
                   GridView.builder(
                     shrinkWrap: true,
                     itemCount: user.videos!.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                     ),
                     itemBuilder: (context, index) {

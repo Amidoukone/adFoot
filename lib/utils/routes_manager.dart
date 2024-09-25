@@ -17,19 +17,19 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.login:
         return PageTransition(
-          child: LoginScreen(), // Page de connexion
+          child: const LoginScreen(), // Page de connexion
           type: PageTransitionType.leftToRight,
           duration: const Duration(milliseconds: 1000),
         );
       case Routes.signup:
         return PageTransition(
-          child: SignUpScreen(), // Notez ici le bon nom de la classe : SignUpScreen
+          child: const SignUpScreen(), // Notez ici le bon nom de la classe : SignUpScreen
           type: PageTransitionType.rightToLeft,
           duration: const Duration(milliseconds: 1000),
         );
       case Routes.home:
         return PageTransition(
-          child: HomeScreen(), // Page d'accueil
+          child: const HomeScreen(), // Page d'accueil
           type: PageTransitionType.leftToRight,
           duration: const Duration(milliseconds: 1000),
         );

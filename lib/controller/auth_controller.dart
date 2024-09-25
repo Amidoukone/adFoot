@@ -88,7 +88,7 @@ class AuthController extends GetxController {
             .set(newUser.toMap());
 
         Get.snackbar('Bienvenue', 'Votre compte a été créé avec succès');
-        Get.to(() => HomeScreen());
+        Get.to(() => const HomeScreen());
       } else {
         Get.snackbar('Erreur', 'Veuillez remplir tous les champs et ajouter une photo');
       }
@@ -103,7 +103,7 @@ class AuthController extends GetxController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email, password: password);
-        Get.to(() => HomeScreen());
+        Get.to(() => const HomeScreen());
       } else {
         Get.snackbar('Erreur', 'Veuillez remplir toutes les informations');
       }

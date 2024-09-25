@@ -103,7 +103,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                               );
                             },
                       child: uploadVideoController.isUploading.value
-                          ? CircularProgressIndicator(
+                          ? const CircularProgressIndicator(
                               color: Colors.white,
                             )
                           : const Text('Share'),

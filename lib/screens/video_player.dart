@@ -1,10 +1,12 @@
 import 'package:ad_foot/controller/video_controller.dart';
-import 'package:ad_foot/screens/video_player_item';
+import 'package:ad_foot/screens/video_player_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VideoPlayer extends StatelessWidget {
   final VideoController _videoController = Get.put(VideoController());
+
+VideoPlayer({super.key});
 
   @override
   Widget build(BuildContext context) {

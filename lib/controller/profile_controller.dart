@@ -7,7 +7,7 @@ class ProfileController extends GetxController {
   final Rx<AppUser?> _user = Rx<AppUser?>(null);
   AppUser? get user => _user.value;
 
-  Rx<String> _uid = "".obs;
+  final Rx<String> _uid = "".obs;
 
   // Méthode pour mettre à jour l'ID utilisateur
   updateUserId(String uid) {

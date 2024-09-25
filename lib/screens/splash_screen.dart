@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'package:ad_foot/screens/main_screen_.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'home_screen.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,27 +13,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late Rx<User?> _user;  // Rx pour observer l'état de l'utilisateur Firebase
+  late Rx<User?> _user;
 
   @override
   void initState() {
     super.initState();
-    onReady();  // Appel de la méthode pour surveiller l'état de connexion
+    onReady();
   }
 
   void onReady() {
-    _user = Rx<User?>(FirebaseAuth.instance.currentUser);  // Suivi de l'utilisateur courant
-    _user.bindStream(FirebaseAuth.instance.authStateChanges());  // Suivi des changements d'état d'authentification
-    ever(_user, _setInitialScreen);  // Réagir aux changements de l'état utilisateur
+    _user = Rx<User?>(FirebaseAuth.instance.currentUser);
+    _user.bindStream(FirebaseAuth.instance.authStateChanges());
+    ever(_user, _setInitialScreen);
   }
 
-  // Rediriger en fonction de la connexion de l'utilisateur
   _setInitialScreen(User? user) {
     Timer(const Duration(seconds: 2), () {
       if (user == null) {
-        Get.offAll(() => const LoginScreen());  // Si l'utilisateur n'est pas connecté, on redirige vers le login
+        Get.offAll(() => const LoginScreen());
       } else {
-        Get.offAll(() => const HomeScreen());  // Sinon on redirige vers l'écran d'accueil
+        Get.offAll(() => const MainScreen());  // Redirige vers MainScreen
       }
     });
   }
@@ -41,10 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,  // Couleur de fond (à personnaliser)
+      backgroundColor: const Color(0xFF214D4F),
       body: Center(
         child: Image.asset(
-          'assets/logo.png',  // Logo de ton application (assure-toi que le chemin est correct)
+          'assets/logo.png',  // Logo de l'application
           width: 150,
           height: 150,
         ),
